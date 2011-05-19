@@ -1,0 +1,48 @@
+JSON LITE LIBRARY
+
+Creates globally valid JSON from PHP arrays which can be used
+by any other library or JS. Will decode JSON string with the
+native json_decode() if available.
+
+The library is fast because it 'cheats' in 3 important ways:
+ - takes advantage of PHP lazy type conversion
+ - can only convert to PHP if the JSON was created by the library
+ - only works on arrays (for now)
+
+The JSON strings produced always have the following extra characters
+encoded in \\uxxxx format (makes parsing to PHP easier and faster)
+ - comma ,
+ - square-brackets [ ]
+ - curly-brackets { }
+
+
+To Use:
+require_once ('json_lite.php');
+
+
+Convert PHP as JSON:
+$json_str = json_lite::to_json($php_array);
+
+
+Convert JSON as PHP:
+$php_array = json_lite::from_json($json_str);
+
+Note: The library is only able to convert JSON strings to PHP
+      if the JSON string was originally created by the library.
+
+
+Quick JSON-RPC Creation:
+$rpc_str = json_lite::encode_json_rpc('my_method', array($param1, $param2));
+
+
+Quick JSON-RPC Execution:
+class my_rpc {
+	function rpc_my_method($param1, $param2){
+		return array('response'=>'Executed');
+	}
+}
+
+$class = new my_rpc;
+
+$rpc_decoded = NULL;
+$returned = json_lite::exec_json_prc($rpc_str, $class, 'rpc_', $rpc_decoded);
