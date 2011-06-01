@@ -46,3 +46,7 @@ $class = new my_rpc;
 
 $rpc_decoded = NULL;
 $returned = json_lite::exec_json_prc($rpc_str, $class, 'rpc_', $rpc_decoded);
+
+
+License: LGPL <http://www.gnu.org/licenses/lgpl.html>
+Copyright: 2011 Jeremy Messenger
